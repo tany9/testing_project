@@ -1,0 +1,41 @@
+name: Run Tests and Deploy Report
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install pytest pytest-html
+
+    - name: Run tests and generate report
+      run: |
+        pytest tests/ --html=report.html --self-contained-html
+
+    - name: Prepare docs folder
+      run: |
+        mkdir -p docs
+        cp report.html docs/index.html
+
+    - name: Commit and push report to GitHub Pages
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git add docs/index.html
+        git commit -m "Update test report"
+        git push
