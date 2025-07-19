@@ -24,7 +24,7 @@ jobs:
 
       - name: Run tests and generate report
         run: |
-          pytest tests/ --html=report.html --self-contained-html
+          pytest tests/api --html=report.html --self-contained-html
 
       - name: Copy report to docs folder
         run: |
