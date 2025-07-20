@@ -1,4 +1,4 @@
-name: Run Tests and Deploy Report
+name: Run ONLY API Tests and Deploy Report
 
 on:
   push:
